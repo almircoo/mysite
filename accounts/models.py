@@ -36,7 +36,7 @@ class UserManager(BaseUserManager):
         return user
 
 # User db fields
-class User(AbstractBaseUser):
+class Account(AbstractBaseUser):
     first_name = models.CharField(max_length=50)
     last_name = models.CharField(max_length=50)
     username = models.CharField(max_length=50, unique=True)
@@ -70,7 +70,7 @@ class User(AbstractBaseUser):
         return True
 
 class UserProfile(models.Model):
-    user = models.OneToOneField(User, on_delete=models.CASCADE)
+    user = models.OneToOneField(Account, on_delete=models.CASCADE)
     address_line_1 = models.CharField(blank=True, max_length=100)
     address_line_2 = models.CharField(blank=True, max_length=100)
     city = models.CharField(blank=True, max_length=20)
@@ -85,7 +85,7 @@ class UserProfile(models.Model):
 
 # Login atttempt intentation
 class LoginAttempt(models.Model):
-    user = models.OneToOneField(User, on_delete=models.CASCADE)
+    user = models.OneToOneField(Account, on_delete=models.CASCADE)
     login_attempts = models.IntegerField(default=0)
     timestamp = models.DateTimeField(auto_now=True)
 
