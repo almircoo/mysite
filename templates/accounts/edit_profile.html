@@ -1,0 +1,68 @@
+{% extends 'base.html' %}
+
+{% block content %}
+<div class="row justify-content-center">
+    <div class="col-md-10">
+        <div class="row">
+            <div class="col-lg-4">
+                <div class="card">
+                    <div class="card-body">
+                        {% include 'includes/sidebar.html' %}
+                    </div>
+                </div>
+            </div>
+
+            <div class="col-lg-8 mt-3">
+                <div class="card">
+                    <div class="card-body">
+                        <div class="text-center">
+                            <h5>Editar Perfil</h5>
+                        </div>
+                        <form action="{% url 'accounts:edit_profile' %}" method="POST" enctype="multipart/form-data">
+                            {% csrf_token %}
+                            <div class="mb-3">
+                                <label class="form-label">Nombre</label>
+                                {{user_form.first_name}}
+                            </div>
+                            <div class="mb-3">
+                                <label class="form-label">Apellidos</label>
+                                {{user_form.last_name}}
+                            </div>
+                            <div class="mb-3">
+                                <label class="form-label">N. Telefono</label>
+                                {{user_form.phone_number}}
+                            </div>
+                            <br>
+                            <div class="mb-3">
+                                <label class="form-label">Direccion</label>
+                                {{profile_form.address_line_1}}
+                            </div>
+                            <div class="mb-3">
+                                <label class="form-label">Direccion 2</label>
+                                {{profile_form.address_line_2}}
+                            </div>
+                            <div class="row gx-3 mb-3">
+                                <div class="col-md-4">
+                                    <label class="mb-1">Pais</label>
+                                    {{profile_form.country}}
+                                </div>
+                                <div class="col-md-4">
+                                    <label class="mb-1">Ciudad</label>
+                                    {{profile_form.city}}
+                                </div>
+                                <div class="col-md-4">
+                                    <label class="mb-1">Estado o Distrito</label>
+                                    {{profile_form.state}}
+                                </div>
+                            </div>
+                            <br>
+                            <input type="submit" value="Save" class="btn btn-dark btn-rounded">
+                        </form>
+                        
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}

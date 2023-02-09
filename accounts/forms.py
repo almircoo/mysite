@@ -4,18 +4,18 @@ from accounts.models import Account, UserProfile
 # User Register
 class RegistrationForm(forms.ModelForm):
     email = forms.EmailField(widget=forms.EmailInput(attrs={
-        'placeholder': 'Ej: john@email.com'
+        'placeholder': 'Email address'
     }))
     password = forms.CharField(widget=forms.PasswordInput(attrs={
-        'placeholder': "",
+        'placeholder': "Password",
     }))
     confirm_password = forms.CharField(widget=forms.PasswordInput(attrs={
-        'placeholder': ""
+        'placeholder': "Confirm Password"
     }))
 
     class Meta:
         model = Account
-        fields = ['first_name', 'last_name', 'email', 'phone_number', 'password']
+        fields = ['first_name', 'last_name', 'phone_number', 'email', 'password']
 
     def clean(self):
         cleaned_data = super(RegistrationForm, self).clean()
@@ -37,8 +37,8 @@ class RegistrationForm(forms.ModelForm):
 
     def __init__(self, *args, **kwargs):
         super(RegistrationForm, self).__init__(*args, **kwargs)
-        self.fields['first_name'].widget.attrs['placeholder'] = 'Ej: John'
-        self.fields['last_name'].widget.attrs['placeholder'] = 'Ej: Smith'
+        self.fields['first_name'].widget.attrs['placeholder'] = 'Name'
+        self.fields['last_name'].widget.attrs['placeholder'] = 'Last name'
         for field in self.fields:
             self.fields[field].widget.attrs['class'] = 'form-control'
 
@@ -46,11 +46,11 @@ class RegistrationForm(forms.ModelForm):
 class LoginForm(forms.Form):
     email = forms.EmailField(
         required=True,
-        widget=forms.EmailInput(attrs={'class': 'form-control', 'placeholder': 'Ej: john@email.com'})
+        widget=forms.EmailInput(attrs={'class': 'form-control', 'placeholder': 'Email address'})
     )
     password = forms.CharField(
         required=True,
-        widget=forms.PasswordInput(attrs={'class': 'form-control', 'placeholder': ''})
+        widget=forms.PasswordInput(attrs={'class': 'form-control', 'placeholder': 'Password'})
     )
     def __init__(self, *args, **kwargs):
         super(LoginForm, self).__init__(*args, **kwargs)

@@ -1,0 +1,18 @@
+@import url('https://fonts.googleapis.com/css2?family=Nunito:wght@200;300;400;500;600;700;800&display=swap');
+body{
+    background-color: #eee;
+    font-family: 'Nunito', sans-serif;
+}
+
+.list-group-item.active {
+    color: #252525 !important;
+    /* color: #00000059 !important; */
+    background-color: #eee !important;
+    border-color: #eee;
+    border-radius: 1rem;
+}
+  
+.list-group-item:hover{
+    color: #252525;
+    /* color: #00000059; */
+}

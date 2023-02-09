@@ -12,7 +12,8 @@ from django.utils.encoding import force_bytes
 from django.contrib.auth.tokens import default_token_generator
 from django.core.mail import EmailMessage
 from django.contrib import messages, auth
-from codereal.settings import LOGIN_ATTEMPTS_TIME_LIMIT, MAX_LOGIN_ATTEMPTS
+# from mysite.settings import LOGIN_ATTEMPTS_TIME_LIMIT, MAX_LOGIN_ATTEMPTS
+from django.conf import settings
 from django.urls import reverse
 
 # User registration
@@ -22,10 +23,12 @@ def register(request):
         if form.is_valid():
             first_name = form.cleaned_data['first_name']
             last_name = form.cleaned_data['last_name']
+            phone_number = form.cleaned_data['phone_number']
             email = form.cleaned_data['email']
             password = form.cleaned_data['password']
             username = email.split("@")[0]
             user = Account.objects.create_user(first_name=first_name, last_name=last_name, email=email, username=username, password=password)
+            user.phone_number = phone_number
             user.save()
 
             # Create a user profile
@@ -73,7 +76,7 @@ def login(request):
             try:
                 _user = Account.objects.get(email=email)
                 login_attempt, created = LoginAttempt.objects.get_or_create(user=_user)  # get the user's login attempt
-                if (login_attempt.timestamp + timedelta(seconds=LOGIN_ATTEMPTS_TIME_LIMIT)) < now:
+                if (login_attempt.timestamp + timedelta(seconds=settings.LOGIN_ATTEMPTS_TIME_LIMIT)) < now:
                     user = auth.authenticate(email=email, password=password)
                     if user is not None:
                         auth.login(request, user)
@@ -88,7 +91,7 @@ def login(request):
                         login_attempt.login_attempts += 1
                         login_attempt.timestamp = now
                         login_attempt.save()
-                        if login_attempt.login_attempts == MAX_LOGIN_ATTEMPTS:
+                        if login_attempt.login_attempts == settings.MAX_LOGIN_ATTEMPTS:
                             _user.is_active = False
                             _user.save()
                             messages.error(request, 'Cuenta suspendida, se excedió el máximo de intentos de inicio de sesión.')
@@ -137,7 +140,11 @@ def activate(request, uidb64, token):
 # Dashboard
 @login_required(login_url = 'login')
 def dashboard(request):
-    return render(request, 'accounts/dashboard.html')
+    userprofile = UserProfile.objects.get(user_id=request.user.id)
+    context = {
+        'userprofile': userprofile,
+    }
+    return render(request, 'accounts/dashboard.html', context)
 
 # Forgot password
 def forgotPassword(request):
@@ -211,13 +218,16 @@ def edit_profile(request):
         profile_form = UserProfileForm(request.POST, instance=userprofile)
         if user_form.is_valid() and profile_form.is_valid():
             user_form.save()
+            profile_form.save()
             messages.success(request, 'Tu perfil ha sido actualizado.')
-            return redirect('edit_profile')
+            return redirect(reverse('edit_profile'))
     else:
         user_form = UserForm(instance=request.user)
+        profile_form = UserProfileForm(instance=userprofile)
         
     context = {
         'user_form': user_form,
+        'profile_form': profile_form,
         'userprofile': userprofile,
     }
     return render(request, 'accounts/edit_profile.html', context)

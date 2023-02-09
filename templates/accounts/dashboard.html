@@ -1,0 +1,52 @@
+{% extends 'base.html' %}
+{% load static %}
+{% block content %}
+<div class="row justify-content-center">
+    <div class="col-md-10">
+        <div class="row">
+            <div class="col-lg-4">
+                <div class="card rounded-4">
+                    <div class="card-body">
+                        {% include 'includes/sidebar.html' %}
+                    </div>
+                </div>
+            </div>
+
+            <div class="col-lg-8 mt-3">
+                <div class="card rounded-4">
+                    <div class="card-body">
+                        <div class="text-center">
+                            <h5>Dashboard</h5>
+                        </div>
+                        <div class="row justify-content-center">
+                            <div class="col-md-4 mb-2">
+                                <div class="card rounded-4">
+                                    <div class="card-body text-center">
+                                        <h5 class="card-title">Compras</h5>
+                                        <h4>
+                                            <svg width="25" height="25" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M16 11V7a4 4 0 00-8 0v4M5 9h14l1 12H4L5 9z"></path></svg>
+                                        </h4>
+                                        <a href="" class=" btn btn-dark rounded-3 fw-bold">Hacer Compras</a>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-md-4 mb-2">
+                                <div class="card rounded-4">
+                                    <div class="card-body text-center">
+                                        <h5 class="card-title">Total Pedidos</h5>
+                                        <h4>45</h4>
+                                        <a href="" class=" btn btn-outline-dark rounded-3 fw-bold">Ver mi Pedido</a>
+                                    </div>
+                                </div>
+                            </div>
+                            
+                        </div>
+                        
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+{% endblock %}

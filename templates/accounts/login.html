@@ -1,0 +1,33 @@
+{% extends 'base.html' %}
+
+{% block content %}
+<div class="row justify-content-center">
+    <div class="col-md-4">
+        <div class="card rounded-4">
+            
+            <div class="card-body">
+                <h5 class="text-center mb-5">
+                    <b>Inicia sesión en tu cuenta</b>
+                </h5>
+                <form action="{% url 'accounts:login' %}" method="POST">
+                    {% csrf_token %}
+                    <div class="mb-3">
+                        {{form.email}}
+                    </div>
+                    <div class="mb-3">
+                        {{form.password}}
+                    </div>
+                    <p class="text-center mt-3 fs-6">
+                        <a href="{% url 'accounts:forgotPassword' %}" class="text-decoration-none text-secondary">
+                            ¿Olvidaste tu contraseña?
+                        </a>
+                    </p>
+                    <div class="d-grid gap-3 mx-auto">
+                        <button class="btn btn-dark rounded-3 fw-bold" type="submit">Ingresar</button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}
