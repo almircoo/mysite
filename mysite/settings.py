@@ -47,6 +47,7 @@ INSTALLED_APPS = [
     'accounts.apps.AccountsConfig',
 
     # External apps
+    "anymail",
 ]
 
 MIDDLEWARE = [
@@ -153,12 +154,26 @@ STATICFILES_DIRS = [
     'mysite/static',
 ]
 
-# Sending email - SMTP or ANYMAIL for sending via API
-EMAIL_HOST = ""
-EMAIL_PORT = 587
-EMAIL_HOST_USER = ""
-EMAIL_HOST_PASSWORD = ""
-EMAIL_USE_TLS = True
+# Sending email - ANYMAIL for sending via API
+
+ANYMAIL = {
+    "MAILGUN_API_KEY": config('MAILGUN_API_KEY'),
+    "MAILGUN_SENDER_DOMAIN": config('MAILGUN_SENDER_DOMAIN'),
+}
+EMAIL_BACKEND = "anymail.backends.mailgun.EmailBackend" 
+DEFAULT_FROM_EMAIL = config('FROM_EMAIL')
+SERVER_EMAIL = "almirco@mail.com"
+
+# Twilio SendGrid
+# EMAIL_HOST = 'smtp.sendgrid.net'
+# EMAIL_PORT = 587
+# EMAIL_USE_TLS = True
+# EMAIL_HOST_USER = 'apikey' # Name for all the SenGrid accounts
+# EMAIL_HOST_PASSWORD = config('SENDGRID_API_KEY')
+
+# The email you'll be sending emails from
+DEFAULT_FROM_EMAIL = config('FROM_EMAIL')
+# LOGIN_REDIRECT_URL = 'success'
 
 # Default primary key field type
 # https://docs.djangoproject.com/en/4.1/ref/settings/#default-auto-field

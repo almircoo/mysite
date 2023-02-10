@@ -5,14 +5,14 @@ from django.contrib.auth.decorators import login_required
 from accounts.models import Account, UserProfile, LoginAttempt
 from accounts.forms import RegistrationForm, LoginForm, UserForm, UserProfileForm
 # Verification email
+from django.core.mail import EmailMessage
 from django.contrib.sites.shortcuts import get_current_site
 from django.template.loader import render_to_string
 from django.utils.http import urlsafe_base64_encode, urlsafe_base64_decode
 from django.utils.encoding import force_bytes
 from django.contrib.auth.tokens import default_token_generator
-from django.core.mail import EmailMessage
 from django.contrib import messages, auth
-# from mysite.settings import LOGIN_ATTEMPTS_TIME_LIMIT, MAX_LOGIN_ATTEMPTS
+from .utils import send_verification_email
 from django.conf import settings
 from django.urls import reverse
 
@@ -37,20 +37,12 @@ def register(request):
             profile.save()
 
             # USER ACTIVATION
-            current_site = get_current_site(request)
             mail_subject = 'Por favor activa tu cuenta'
-            message = render_to_string('accounts/account_verification_email.html', {
-                'user': user,
-                'domain': current_site,
-                'uid': urlsafe_base64_encode(force_bytes(user.pk)),
-                'token': default_token_generator.make_token(user),
-            })
-            to_email = email
-            send_email = EmailMessage(mail_subject, message, to=[to_email])
-            send_email.send()
+            email_template = 'accounts/account_verification_email.html'
+            send_verification_email(request, user, mail_subject, email_template)
             messages.success(request, 'Le hemos enviado un correo electrónico de verificación a su dirección de correo electrónico. Por favor verifíquelo.')
             # return redirect('/accounts/login/?command=verification&email='+email)
-            return redirect('login')
+            return redirect(reverse('accounts:login'))
         else:
             messages.error(request, 'Ocurrió un error durante el registro.')
     else:
@@ -131,10 +123,10 @@ def activate(request, uidb64, token):
         user.is_active = True
         user.save()
         messages.success(request, '¡Felicidades! Su cuenta está activada.')
-        return redirect('login')
+        return redirect(reverse('accounts:login'))
     else:
         messages.error(request, 'Enlace de activación no válido')
-        return redirect('register')
+        return redirect(reverse('accounts:register'))
 
 
 # Dashboard
@@ -167,7 +159,7 @@ def forgotPassword(request):
             send_email.send()
 
             messages.success(request, 'Se ha enviado un email para restablecer su contraseña.')
-            return redirect('login')
+            return redirect(reverse('accounts:login'))
         else:
             messages.error(request, '¡La cuenta no existe!')
             return redirect('forgotPassword')
@@ -184,10 +176,10 @@ def resetpassword_validate(request, uidb64, token):
     if user is not None and default_token_generator.check_token(user, token):
         request.session['uid'] = uid
         messages.success(request, 'Please reset your password')
-        return redirect('resetPassword')
+        return redirect(reverse('accounts:resetPassword'))
     else:
         messages.error(request, 'This link has been expired!')
-        return redirect('login')
+        return redirect(reverse('accounts:login'))
 
 # Reset password
 def resetPassword(request):
@@ -201,10 +193,10 @@ def resetPassword(request):
             user.set_password(password)
             user.save()
             messages.success(request, 'Password reset successful')
-            return redirect('login')
+            return redirect(reverse('accounts:login'))
         else:
             messages.error(request, 'Password do not match!')
-            return redirect('resetPassword')
+            return redirect(reverse('accounts:resetPassword'))
     else:
         return render(request, 'accounts/resetPassword.html')
 
@@ -249,11 +241,11 @@ def change_password(request):
                 user.save()
                 # auth.logout(request)
                 messages.success(request, 'Contraseña actualizada exitosamente.')
-                return redirect('change_password')
+                return redirect(reverse('accounts:change_password'))
             else:
                 messages.error(request, 'Por favor, introduzca una contraseña actual válida')
-                return redirect('change_password')
+                return redirect(reverse('accounts:change_password'))
         else:
             messages.error(request, '¡Las contraseñas no coinciden!')
-            return redirect('change_password')
+            return redirect(reverse('accounts:change_password'))
     return render(request, 'accounts/change_password.html')
