@@ -14,11 +14,21 @@ Setup project environment
 # Create virtual environment - MacOS
 $ python -m venv myvenv 
 $ source myvenv/bin/activate
+```
+```bash
 # Create virtual environment - Windows
 $ py -m venv env-name 
 $ .\env_name\scripts\activate
-# Clone the project
+```
+```bash
+# Clone the project HTTPS
 $ git clone https://github.com/JesusAlmirco/mysite.git
+# Clone the project SSH
+$ git clone git@github.com:JesusAlmirco/mysite.git
+# Clone the project GitHub-CLI
+$ gh repo clone JesusAlmirco/mysite
+```
+```bash
 $ cd mysite
 $ pip install -r requirements.txt
 $ python manage.py migrate
