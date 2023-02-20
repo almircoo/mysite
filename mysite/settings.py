@@ -184,7 +184,7 @@ SERVER_EMAIL = "almirco@mail.com"
 # EMAIL_HOST_PASSWORD = config('SENDGRID_API_KEY')
 
 # The email you'll be sending emails from
-DEFAULT_FROM_EMAIL = config('FROM_EMAIL')
+# DEFAULT_FROM_EMAIL = config('FROM_EMAIL')
 # LOGIN_REDIRECT_URL = 'success'
 
 # Default primary key field type
