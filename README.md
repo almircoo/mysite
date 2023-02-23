@@ -17,8 +17,8 @@ $ source myvenv/bin/activate
 ```
 ```bash
 # Create virtual environment - Windows
-$ py -m venv env-name 
-$ .\env_name\scripts\activate
+...\> py -m venv env-name 
+...\> .\env_name\scripts\activate
 ```
 ```bash
 # Clone the project HTTPS
