@@ -1,13 +1,14 @@
 @import url('https://fonts.googleapis.com/css2?family=Nunito:wght@200;300;400;500;600;700;800&display=swap');
 body{
-    background-color: #F3F3F3;
+    background-color: #E4E4E4; /* rgb 228 228 228 */
     font-family: 'Nunito', sans-serif;
+    /* color: #565656; font color for background e4e4e4 */
 }
 
 .list-group-item.active {
     color: #252525 !important;
-    background-color: #F3F3F3 !important;
-    border-color: #F3F3F3;
+    background-color: #E4E4E4 !important;
+    border-color: #E4E4E4;
     border-radius: 1rem;
 }
   
