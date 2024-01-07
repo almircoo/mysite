@@ -22,9 +22,9 @@ $ source myvenv/bin/activate
 ```
 ```bash
 # Clone the project HTTPS
-$ git clone https://github.com/JesusAlmirco/mysite.git
+$ git clone https://github.com/almirco/app.git
 # Clone the project SSH
-$ git clone git@github.com:JesusAlmirco/mysite.git
+$ git clone git@github.com:almircoo/app.git
 # Clone the project GitHub-CLI
 $ gh repo clone JesusAlmirco/mysite
 ```

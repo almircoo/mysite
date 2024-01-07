@@ -174,7 +174,7 @@ ANYMAIL = {
 }
 EMAIL_BACKEND = "anymail.backends.mailgun.EmailBackend" 
 DEFAULT_FROM_EMAIL = config('FROM_EMAIL')
-SERVER_EMAIL = "almirco@mail.com"
+SERVER_EMAIL = "admin@email.com"
 
 # Twilio SendGrid
 # EMAIL_HOST = 'smtp.sendgrid.net'
